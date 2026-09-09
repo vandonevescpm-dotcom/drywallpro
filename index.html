@@ -28,9 +28,29 @@
 
   body {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: var(--bg);
-    color: var(--text);
+    background: #F2F2F2 !important;
+    color: #0D0D0D !important;
     min-height: 100vh;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --primary: #0B368C;
+      --primary-light: #23468C;
+      --accent: #7890BF;
+      --accent-light: #a8bcd8;
+      --bg: #F2F2F2;
+      --card: #ffffff;
+      --border: #d0d8e8;
+      --text: #0D0D0D;
+      --text-muted: #4a5568;
+      --success: #1a5c3a;
+      --success-bg: #e8f5ef;
+      --input-bg: #f8f9fc;
+    }
+    body { background: #F2F2F2 !important; color: #0D0D0D !important; }
+    .card { background: #ffffff !important; }
+    .hist-item { background: #F2F2F2 !important; }
   }
 
   /* HEADER */
@@ -478,7 +498,7 @@
     font-size: 14px;
     table-layout: fixed;
   }
-  table td, table th { overflow: hidden; }
+  table td, table th { overflow: visible; }
   thead th {
     background: var(--bg);
     padding: 10px 14px;
