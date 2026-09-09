@@ -26,11 +26,15 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
+  /* ── Força modo claro em qualquer dispositivo ── */
+  * { color-scheme: light !important; }
+  html { background: #F2F2F2 !important; }
   body {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     background: #F2F2F2 !important;
     color: #0D0D0D !important;
     min-height: 100vh;
+    forced-color-adjust: none;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -49,8 +53,15 @@
       --input-bg: #f8f9fc;
     }
     body { background: #F2F2F2 !important; color: #0D0D0D !important; }
-    .card { background: #ffffff !important; }
-    .hist-item { background: #F2F2F2 !important; }
+    .card { background: #ffffff !important; color: #0D0D0D !important; }
+    .card-header { background: linear-gradient(135deg,#0B368C,#23468C) !important; color:#fff !important; }
+    .hist-item { background: #F2F2F2 !important; color: #0D0D0D !important; }
+    thead th { background: #F2F2F2 !important; color: #4a5568 !important; }
+    tbody tr { background: #ffffff !important; }
+    input, select { background: #f8f9fc !important; color: #0D0D0D !important; }
+    .tipo-btn { background: #ffffff !important; color: #0B368C !important; }
+    .tipo-btn.active { background: #0B368C !important; color: #ffffff !important; }
+    .results-card { background: #ffffff !important; }
   }
 
   /* HEADER */
@@ -621,6 +632,38 @@
     .tipo-btn:last-child { grid-column: 1/-1; }
     header h1 { font-size: 18px; }
     .form-grid { grid-template-columns: 1fr 1fr; }
+
+    /* ── Mobile: tabela de materiais vira cards ── */
+    #results-card .tbl-wrap { overflow-x: visible; }
+    #results-card table { display: block; }
+    #results-card thead { display: none; }
+    #results-card tbody { display: block; }
+    #results-card tbody tr {
+      display: flex; flex-wrap: wrap; align-items: center;
+      gap: 4px 8px; padding: 10px 4px;
+      border-bottom: 1px solid var(--border);
+    }
+    /* toggle */
+    #results-card tbody td:nth-child(1) { order:1; flex: 0 0 28px; padding:0; }
+    /* nome */
+    #results-card tbody td:nth-child(2) {
+      order:2; flex: 1 1 calc(100% - 40px);
+      padding:0; font-size:13px; font-weight:600;
+      white-space: normal; word-break: break-word;
+    }
+    /* qty input */
+    #results-card tbody td:nth-child(3) {
+      order:3; flex: 0 0 auto; padding:0 0 0 36px;
+    }
+    /* unit */
+    #results-card tbody td:nth-child(4) { order:4; flex:0 0 auto; padding:0; }
+    /* price */
+    #results-card tbody td:nth-child(5) { order:5; flex:0 0 auto; padding:0; }
+    /* subtotal */
+    #results-card tbody td:nth-child(6) { order:6; flex:0 0 auto; padding:0; }
+
+    /* Separador dashed e linhas extras */
+    #results-card tbody tr.extra-row td:nth-child(2) { padding: 0; }
   }
 </style>
 </head>
@@ -836,8 +879,8 @@
     <div class="card-body">
       <div id="results-info" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;"></div>
 
-      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
-      <table style="min-width:300px;">
+      <div class="tbl-wrap" style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+      <table style="min-width:300px;width:100%;">
         <thead>
           <tr>
             <th style="width:32px;padding:4px 2px;"></th>
