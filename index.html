@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
 <title>Calculadora SS Gesso</title>
 <style>
   :root {
@@ -454,7 +455,8 @@
   .hist-meta { flex: 1; min-width: 0; }
   .hist-date { font-size: 11px; color: var(--text-muted); }
   .hist-tipo { font-size: 13px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .hist-info { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .hist-info { font-size: 11px; color: var(--text-muted); margin-top: 4px; display: flex; flex-wrap: wrap; gap: 2px 8px; }
+  .hist-info-item { white-space: nowrap; }
   .hist-actions { display: flex; gap: 6px; flex-shrink: 0; }
   .btn-hist { font-size: 11px; padding: 4px 10px; border-radius: 6px; cursor: pointer; border: 1.5px solid var(--border); background: var(--card); color: var(--text); }
   .btn-hist-del { border-color: #e74c3c; color: #e74c3c; background: none; }
@@ -1556,7 +1558,7 @@ function renderHistorico() {
     if (!hist.length) { card.style.display='none'; return; }
     card.style.display = 'block';
     body.innerHTML = hist.map(function(e) {
-      var infoTxt = e.info.map(function(i){ return i.label+': '+i.value; }).join(' &nbsp;|&nbsp; ');
+      var infoTxt = e.info.map(function(i){ return '<span class="hist-info-item">'+i.label+': <b>'+i.value+'</b></span>'; }).join('');
       var hasPrice = e.materiais.some(function(m){ return m.price; });
       var thPrice = hasPrice ? '<th style="padding:5px 8px;text-align:center;font-size:11px;color:var(--text-muted);border-bottom:1px solid var(--border);">PREÇO UN.</th>'+
         '<th style="padding:5px 8px;text-align:center;font-size:11px;color:var(--text-muted);border-bottom:1px solid var(--border);">DESC.</th>'+
