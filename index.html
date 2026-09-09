@@ -7,7 +7,7 @@
 <title>Calculadora SS Gesso</title>
 <style>
   :root {
-    color-scheme: light;
+    color-scheme: light only;
     --primary: #0B368C;
     --primary-light: #23468C;
     --accent: #7890BF;
@@ -448,18 +448,19 @@
   /* HISTÓRICO */
   #historico-card { margin-top: 16px; }
   .hist-item {
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 10px; padding: 10px 14px; border-radius: 8px;
-    background: var(--bg); margin-bottom: 8px; flex-wrap: wrap;
+    display: flex; flex-direction: column; align-items: stretch;
+    gap: 8px; padding: 12px 14px; border-radius: 10px;
+    background: var(--bg); margin-bottom: 10px;
+    border: 1px solid var(--border);
   }
   .hist-meta { flex: 1; min-width: 0; }
   .hist-date { font-size: 11px; color: var(--text-muted); }
-  .hist-tipo { font-size: 13px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .hist-info { font-size: 11px; color: var(--text-muted); margin-top: 4px; display: flex; flex-wrap: wrap; gap: 2px 8px; }
+  .hist-tipo { font-size: 14px; font-weight: 700; color: var(--text); margin-top: 2px; }
+  .hist-info { font-size: 11px; color: var(--text-muted); margin-top: 4px; display: flex; flex-wrap: wrap; gap: 3px 10px; }
   .hist-info-item { white-space: nowrap; }
-  .hist-actions { display: flex; gap: 6px; flex-shrink: 0; }
-  .btn-hist { font-size: 11px; padding: 4px 10px; border-radius: 6px; cursor: pointer; border: 1.5px solid var(--border); background: var(--card); color: var(--text); }
-  .btn-hist-del { border-color: #e74c3c; color: #e74c3c; background: none; }
+  .hist-actions { display: flex; gap: 6px; flex-wrap: wrap; border-top: 1px solid var(--border); padding-top: 8px; margin-top: 2px; }
+  .btn-hist { font-size: 12px; padding: 6px 12px; border-radius: 6px; cursor: pointer; border: 1.5px solid var(--border); background: var(--card); color: var(--text); flex: 1; text-align: center; }
+  .btn-hist-del { border-color: #e74c3c; color: #e74c3c; background: none; flex: 0; }
   .results-card.visible { display: block; }
 
   .results-header {
@@ -815,11 +816,12 @@
     <div class="card-body">
       <div id="results-info" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;"></div>
 
-      <table>
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+      <table style="min-width:300px;">
         <thead>
           <tr>
             <th style="width:32px;padding:4px 2px;"></th>
-            <th style="width:auto;">Material</th>
+            <th style="min-width:130px;">Material</th>
             <th style="width:72px;text-align:center">Qtd.</th>
             <th style="width:62px;">Unid.</th>
             <th id="col-preco" style="display:none;width:155px;white-space:nowrap;">Preço unit. (R$)</th>
@@ -828,6 +830,7 @@
         </thead>
         <tbody id="results-tbody"></tbody>
       </table>
+      </div>
 
       <div id="total-box" class="total-box" style="display:none">
         <div>
@@ -1576,19 +1579,17 @@ function renderHistorico() {
         '<tr><td colspan="'+(hasPrice?'5':'2')+'" style="padding:8px;text-align:right;font-weight:700;border-top:2px solid var(--border);">TOTAL</td>'+
         '<td style="padding:8px;text-align:right;font-weight:800;color:var(--primary);border-top:2px solid var(--border);">'+e.total+'</td></tr>' : '';
       var totalBadge = (e.total && e.total !== 'R$ 0,00') ? ' &nbsp;<span style="font-size:11px;font-weight:700;color:var(--primary);">'+e.total+'</span>' : '';
-      return '<div class="hist-item" style="flex-direction:column;align-items:stretch;">'+
-        '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">'+
-          '<div class="hist-meta">'+
-            '<div class="hist-date">&#x1F550; '+e.data+'</div>'+
-            '<div class="hist-tipo">'+e.titulo+totalBadge+'</div>'+
-            '<div class="hist-info">'+infoTxt+'</div>'+
-          '</div>'+
-          '<div class="hist-actions">'+
-            '<button class="btn-hist" onclick="toggleHistDetail('+e.id+',this)">&#x1F441; Ver</button>'+
-            '<button class="btn-hist" onclick="imprimirHistorico('+e.id+')">&#x1F5A8; Imprimir</button>'+
-            '<button class="btn-hist" onclick="copiarHistorico('+e.id+')">&#x1F4CB; Copiar</button>'+
-            '<button class="btn-hist btn-hist-del" onclick="excluirHistorico('+e.id+')">&#x1F5D1;</button>'+
-          '</div>'+
+      return '<div class="hist-item">'+
+        '<div class="hist-meta">'+
+          '<div class="hist-date">&#x1F550; '+e.data+'</div>'+
+          '<div class="hist-tipo">'+e.titulo+totalBadge+'</div>'+
+          '<div class="hist-info">'+infoTxt+'</div>'+
+        '</div>'+
+        '<div class="hist-actions">'+
+          '<button class="btn-hist" onclick="toggleHistDetail('+e.id+',this)">&#x1F441; Ver</button>'+
+          '<button class="btn-hist" onclick="imprimirHistorico('+e.id+')">&#x1F5A8; Imprimir</button>'+
+          '<button class="btn-hist" onclick="copiarHistorico('+e.id+')">&#x1F4CB; Copiar</button>'+
+          '<button class="btn-hist btn-hist-del" onclick="excluirHistorico('+e.id+')">&#x1F5D1;</button>'+
         '</div>'+
         '<div id="hist-detail-'+e.id+'" style="display:none;margin-top:10px;border-top:1px solid var(--border);padding-top:10px;overflow-x:auto;">'+
           '<table style="width:100%;font-size:13px;border-collapse:collapse;min-width:300px;">'+
